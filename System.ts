@@ -11,6 +11,7 @@ import { UserManager } from "./User"
 class Instance {
     id: UUID
     name: string
+    parent: System
 
     campaigns: CampaignManager
     areas: AreaManager
@@ -19,9 +20,10 @@ class Instance {
     bikes: BikeManager
     rides: RideManager
 
-    constructor(id: UUID, name: string) {
+    constructor(id: UUID, name: string, parent: System) {
         this.id = id
         this.name = name
+        this.parent = parent
 
         this.campaigns = new CampaignManager(id)
         this.areas = new AreaManager(id)
@@ -50,7 +52,7 @@ class System {
     }
 
     createInstance(name: string): Instance {
-        const instance = new Instance(name, name)
+        const instance = new Instance(name, name, this)
         this.instances.set(name, instance)
         return instance
     }

@@ -1,6 +1,6 @@
 import { UUID } from "./trivial";
 
-interface Entry<> {
+interface Entry {
     id: UUID | undefined
     instanceID: UUID | undefined | null
 }
@@ -16,7 +16,6 @@ abstract class Manager<V extends Entry> {
     abstract get(key: UUID): V | undefined
     abstract update(key: UUID, value: V): V | undefined
     abstract delete(key: UUID): V | undefined
-    abstract find(key: UUID): V | undefined
     abstract filter(predicate: (value: V, key: UUID) => boolean): Map<UUID, V>
 }
 
@@ -47,10 +46,6 @@ class DBManager<V extends Entry> extends Manager<V> {
     }
 
     delete(key: UUID): V | undefined {
-        return undefined
-    }
-
-    find(key: UUID): V | undefined {
         return undefined
     }
 
@@ -95,10 +90,6 @@ class CachedManager<V extends Entry> extends DBManager<V> {
     delete(key: UUID): V | undefined {
         this.cache.delete(key)
         return super.delete(key)
-    }
-
-    find(key: UUID): V | undefined {
-        return this.cache.get(key) || super.find(key)
     }
 
     filter(predicate: (value: V, key: UUID) => boolean, fetch: boolean = false): Map<UUID, V> {

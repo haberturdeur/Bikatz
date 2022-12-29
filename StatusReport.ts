@@ -1,11 +1,18 @@
+import { BikeState } from "./Bike"
 import { Entry, Manager } from "./Manager"
-import { Instance, System } from "./System"
+import { Instance } from "./System"
 import { Point, UUID } from "./trivial"
 
 enum ReportType {
     BikePosition,
     RideStart,
     RideStop,
+    BikeEnteringStand,
+    BikeLeavingStand,
+    BikeCharged
+    /*
+    There would be more types of reports, but right now I am to lazy to think of them...
+    */
 }
 
 class StatusReport implements Entry {
@@ -53,13 +60,38 @@ class ReportManager extends Manager<StatusReport> {
             case ReportType.RideStart:
                 if (!bike)
                     return
-                parent.rides.startRide(report.bikeID!, parent.areas.getCurrent(bike.position))
+                const data = JSON.parse(report.data)
+                const pm = Array.from(parent.parent.paymentMethods.filter((v, k) => v.number === data.number && v.type == data.type).values())[0]
+                parent.rides.startRide(report.bikeID!, pm.id!, parent.areas.getCurrent(bike.position), report.timestamp)
                 break
 
             case ReportType.RideStop:
                 if (!bike)
                     return
-                parent.rides.stopRide(parent.rides.getOngoing(report.bikeID!).id!, parent.areas.getCurrent(bike.position))
+                parent.rides.stopRide(parent.rides.getOngoing(report.bikeID!).id!, parent.areas.getCurrent(bike.position), report.timestamp)
+                break
+
+            case ReportType.BikeEnteringStand:
+                if (!bike || !stand)
+                    return
+                stand.enterBike(report.bikeID!, Number(report.data))
+                parent.stands.update(stand.id!, stand)
+                bike.state = BikeState.Charging
+                parent.bikes.update(bike.id!, bike)
+                break
+
+            case ReportType.BikeLeavingStand:
+                if (!bike || !stand)
+                    return
+                stand.leaveBike(Number(report.data))
+                parent.stands.update(stand.id!, stand)
+                break
+
+            case ReportType.BikeCharged:
+                if (!bike || !stand)
+                    return
+                bike.state = BikeState.Available
+                parent.bikes.update(bike.id!, bike)
                 break
 
             default:
