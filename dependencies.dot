@@ -1,0 +1,36 @@
+strict digraph "dependency-cruiser output"{
+    rankdir="LR" splines="true" overlap="false" nodesep="0.16" ranksep="0.18" fontname="Helvetica-bold" fontsize="9" style="rounded,bold,filled" fillcolor="#ffffff" compound="true"
+    node [shape="box" style="rounded, filled" height="0.2" color="black" fillcolor="#ffffcc" fontcolor="black" fontname="Helvetica" fontsize="9"]
+    edge [arrowhead="normal" arrowsize="0.6" penwidth="2.0" color="#00000033" fontname="Helvetica" fontsize="9"]
+
+    "Area.ts" [label=<Area.ts> tooltip="Area.ts" URL="Area.ts" fillcolor="#ddfeff"]
+    "Area.ts" -> "Manager.ts"
+    "Bike.ts" [label=<Bike.ts> tooltip="Bike.ts" URL="Bike.ts" fillcolor="#ddfeff"]
+    "Bike.ts" -> "Manager.ts"
+    "Campaign.ts" [label=<Campaign.ts> tooltip="Campaign.ts" URL="Campaign.ts" fillcolor="#ddfeff"]
+    "Campaign.ts" -> "Manager.ts"
+    "Manager.ts" [label=<Manager.ts> tooltip="Manager.ts" URL="Manager.ts" fillcolor="#ddfeff"]
+    "PaymentMethod.ts" [label=<PaymentMethod.ts> tooltip="PaymentMethod.ts" URL="PaymentMethod.ts" fillcolor="#ddfeff"]
+    "PaymentMethod.ts" -> "Manager.ts"
+    "Ride.ts" [label=<Ride.ts> tooltip="Ride.ts" URL="Ride.ts" fillcolor="#ddfeff"]
+    "Ride.ts" -> "Manager.ts"
+    "Stand.ts" [label=<Stand.ts> tooltip="Stand.ts" URL="Stand.ts" fillcolor="#ddfeff"]
+    "Stand.ts" -> "Manager.ts"
+    "StatusReport.ts" [label=<StatusReport.ts> tooltip="StatusReport.ts" URL="StatusReport.ts" fillcolor="#ddfeff"]
+    "StatusReport.ts" -> "Manager.ts"
+    "StatusReport.ts" -> "trivial.ts"
+    "System.ts" [label=<System.ts> tooltip="System.ts" URL="System.ts" fillcolor="#ddfeff"]
+    "System.ts" -> "Area.ts"
+    "System.ts" -> "Bike.ts"
+    "System.ts" -> "Campaign.ts"
+    "System.ts" -> "PaymentMethod.ts"
+    "System.ts" -> "Ride.ts"
+    "System.ts" -> "Stand.ts"
+    "System.ts" -> "StatusReport.ts"
+    "System.ts" -> "User.ts"
+    "User.ts" [label=<User.ts> tooltip="User.ts" URL="User.ts" fillcolor="#ddfeff"]
+    "User.ts" -> "Manager.ts"
+    "index.ts" [label=<index.ts> tooltip="index.ts" URL="index.ts" fillcolor="#ddfeff"]
+    "index.ts" -> "System.ts"
+    "trivial.ts" [label=<trivial.ts> tooltip="trivial.ts" URL="trivial.ts" fillcolor="#ddfeff"]
+}
